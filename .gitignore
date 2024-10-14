@@ -1,0 +1,8 @@
+# Project Builds
+build
+node_modules
+
+# Environments
+.env
+
+

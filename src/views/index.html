@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAe1BMVEUAAAACzqMBzqIAzqIAzqEAzaGt//8Cz6O1//8AiYIAzaICz6IBzqIBzqIBzqIBzqIBzqIBzqIBzqIBzqIBzqIBzqIBzqIBzqID0KQDz6QCzqMBzqIBzqIBzqIBzqIBzqIBzqIBzqIBzqIBzqIDzqUDzqYBzqIBzqL////67OkeAAAAJ3RSTlMAAAAAAAAAAAAAAAALEGPBzs3w3j6Uo6IBAQNGoK7j7Fm3xAcBAT2CLhv7AAAAAWJLR0QovbC1sgAAAAd0SU1FB+IMCgw4FtdE7YIAAACNSURBVDjLzdNLAoIwEAPQdBRHoALyUwT5i/e/oXiApkt969k0SYE/YIQyONgLYY9I0uzqlKUJ8jeVo+AHBcqqvjnVVQkJ7kQgOCl1hhpKIc2DaARt9yS6Fj1/Zo+BHwwYp5mYRshiiUWgvG5FyHMI96jXl9O6R73xsjZ/3d7BeCcX8dFGiHkO8a+/5dcHL2E+6l+rbnsAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTgtMTItMTBUMTE6NTY6MjIrMDE6MDAEmRr8AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE4LTEyLTEwVDExOjU2OjIyKzAxOjAwdcSiQAAAAABJRU5ErkJggg=="
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        user-select: none;
+      }
+
+      body {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        font-family: Arial, sans-serif;
+        background-color: #171e27;
+        color: white;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      header {
+        display: flex;
+        padding: 1rem;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      header h1 {
+        text-align: center;
+      }
+
+      nav ul {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        margin-top: 1rem;
+        list-style: none;
+      }
+
+      nav ul li {
+        margin: 0 1rem;
+        color: white;
+        cursor: pointer;
+        list-style: none;
+      }
+
+      main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        flex-direction: row;
+        flex-wrap: wrap;
+        padding: 0 10px;
+      }
+
+      #pm2_infos {
+        background-color: rgba(1, 14, 36, 0.6);
+        padding: 3rem;
+        border-radius: 10%;
+        width: 400px;
+        height: 400px;
+      }
+
+      #pm2_infos h2 {
+        margin-bottom: 2rem;
+        color: greenyellow;
+      }
+
+      #pm2_infos ul li {
+        display: flex;
+        justify-content: space-between;
+
+        list-style: none;
+        margin: 1rem 0;
+        font-weight: bold;
+      }
+
+      #pm2_logs {
+        background-color: rgba(1, 14, 36, 0.6);
+        padding: 1rem;
+        border-radius: 10%;
+        margin-left: 2rem;
+        width: 450px;
+        height: 400px;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        font-size: 10px;
+      }
+
+      #pm2_logs::-webkit-scrollbar {
+        width: 0;
+      }
+
+      #pm2_logs {
+        scrollbar-width: thin;
+        scrollbar-color: transparent transparent;
+      }
+
+      footer {
+        display: flex;
+        padding: 1rem;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+
+      footer a {
+        color: white;
+        text-decoration: none;
+      }
+    </style>
+    <title>Dashboard PM2</title>
+  </head>
+  <body>
+    <header>
+      <h1>Dashboard PM2 - Open Source</h1>
+      <nav>
+        <ul id="nav_items"></ul>
+      </nav>
+    </header>
+    <main>
+      <div id="pm2_infos">
+        <h2 id="pm2_infos_title"></h2>
+        <ul>
+          <li>
+            <span>Version:</span>
+            <span id="pm2-version"></span>
+          </li>
+          <li>
+            <span>Uptime:</span>
+            <span id="pm2-uptime"></span>
+          </li>
+          <li>
+            <span>Memory Usage:</span>
+            <span id="pm2-memory-usage"></span>
+          </li>
+          <li>
+            <span>Heap Usage:</span>
+            <span id="pm2-heap-usage"></span>
+          </li>
+          <li>
+            <span>Heap Size:</span>
+            <span id="pm2-heap-size"></span>
+          </li>
+          <li>
+            <span>Restarts:</span>
+            <span id="pm2-project-restarts"></span>
+          </li>
+          <li>
+            <span>Status:</span>
+            <span id="pm2-project-status"></span>
+          </li>
+        </ul>
+      </div>
+      <div id="pm2_logs"></div>
+    </main>
+    <footer>
+      <p>Dashboard PM2 - Open Source</p>
+      <span>
+        Feito com ❤️ por
+        <a href="https://hernandemonteiro.com">Hernande Monteiro</a></span
+      >
+    </footer>
+    <script>
+      function init() {
+        let pm2Show = "";
+        let pm2Id = 0;
+
+        async function fetchPm2Infos() {
+          const res = await fetch("/api/pm2");
+          const data = await res.json();
+
+          if (data) {
+            pm2Show = pm2Show || data[0].name;
+            pm2Id = data[0].pm_id;
+            setInfos(pm2Show, data);
+          }
+
+          const navItems = document.getElementById("nav_items");
+          navItems.innerHTML = "";
+
+          data.forEach((item) => {
+            navItems.innerHTML += `<li class="nav_item">${item.name}</li>`;
+          });
+
+          const navItem = document.querySelectorAll(".nav_item");
+          navItem.forEach((item) =>
+            item.addEventListener("click", (item) => {
+              pm2Show = item.target.innerText;
+              document.getElementById("pm2_infos").style.display = "block";
+              setInfos(pm2Show, data);
+            })
+          );
+
+          if (pm2Show === "") {
+            document.getElementById("pm2_infos").style.display = "none";
+          }
+        }
+
+        async function setInfos(name, data) {
+          const pm2Version = document.getElementById("pm2-version");
+          const pm2Uptime = document.getElementById("pm2-uptime");
+          const pm2MemoryUsage = document.getElementById("pm2-memory-usage");
+          const pm2ProjectRestarts = document.getElementById(
+            "pm2-project-restarts"
+          );
+          const pm2ProjectStatus =
+            document.getElementById("pm2-project-status");
+          const pm2InfosTitle = document.getElementById("pm2_infos_title");
+          const pm2HeapUsage = document.getElementById("pm2-heap-usage");
+          const pm2HeapSize = document.getElementById("pm2-heap-size");
+          const pm2Logs = document.getElementById("pm2_logs");
+
+          pm2InfosTitle.innerText = `PM2 Infos (${name})`;
+
+          pm2Version.innerText = data.find(
+            (item) => item.name === name
+          ).pm2_env.version;
+          pm2Uptime.innerText = formatUptime(
+            data.find((item) => item.name === name).pm2_env.pm_uptime
+          );
+
+          pm2MemoryUsage.innerText =
+            (
+              data.find((item) => item.name === name).monit.memory /
+              (1024 * 1024)
+            ).toFixed(2) + "MB";
+          pm2ProjectRestarts.innerText = data.find(
+            (item) => item.name === name
+          ).pm2_env.restart_time;
+          pm2ProjectStatus.innerText = data.find(
+            (item) => item.name === name
+          ).pm2_env.status;
+          pm2HeapUsage.innerText =
+            data.find((item) => item.name === name).pm2_env.axm_monitor[
+              "Heap Usage"
+            ].value + "%";
+          pm2HeapSize.innerText =
+            data.find((item) => item.name === name).pm2_env.axm_monitor[
+              "Heap Size"
+            ].value + "MB";
+
+          const resLogs = await fetch("/api/pm2/" + name).catch((err) =>
+            console.error(err)
+          );
+          const dataLogs = await resLogs.json();
+
+          if (!dataLogs) {
+            pm2Logs.innerHTML = "Nothing to show";
+            return;
+          }
+
+          pm2Logs.innerHTML = formatPM2Logs(dataLogs.logs);
+
+          pm2Logs.scrollTop = pm2Logs.scrollHeight;
+        }
+
+        const formatUptime = (uptime) => {
+          return new Date(uptime).toISOString().substr(11, 8);
+        };
+        function formatPM2Logs(logData) {
+          const logLines = logData.split("\n");
+
+          const formattedLogs = logLines
+            .filter((logLine) => logLine.trim() !== "")
+            .map((logLine, index) => {
+              let level = "Informação";
+              let message = logLine;
+
+              if (logLine.includes("DeprecationWarning")) {
+                level = "Aviso de Depreciação";
+              } else if (
+                logLine.includes("error") ||
+                logLine.includes("Error")
+              ) {
+                level = "Erro";
+              } else if (logLine.includes("Warning") || logLine.includes("⚠")) {
+                level = "Aviso";
+              } else if (logLine.includes("Ready") || logLine.includes("✓")) {
+                level = "Sucesso";
+              } else if (logLine.includes("Next.js")) {
+                level = "Informação";
+              }
+
+              let levelStyle = "color: white; font-weight: bold;";
+
+              return `
+        <div key=${index} style="padding: 10px; border-bottom: 1px solid #ddd;">
+          <strong style="${levelStyle}">Nível:</strong> ${level}<br>
+          <strong>Mensagem:</strong> ${
+            message || "Nenhuma mensagem disponível"
+          }<br>
+        </div>
+      `;
+            })
+            .join("");
+
+          return formattedLogs;
+        }
+
+        fetchPm2Infos();
+
+        setInterval(() => {
+          fetchPm2Infos();
+        }, 2000);
+      }
+
+      const token = localStorage.getItem("token");
+      if (token) {
+        fetch("/api/verify_token", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }).then((res) => {
+          if (res.status === 401) {
+            localStorage.removeItem("token");
+            window.location.href = "/login";
+          } else {
+            init();
+          }
+        });
+      } else {
+        window.location.href = "/login";
+      }
+    </script>
+  </body>
+</html>

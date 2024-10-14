@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAAABGdBTUEAALGPC/xhBQAAACBjSFJNAAB6JgAAgIQAAPoAAACA6AAAdTAAAOpgAAA6mAAAF3CculE8AAAAe1BMVEUAAAACzqMBzqIAzqIAzqEAzaGt//8Cz6O1//8AiYIAzaICz6IBzqIBzqIBzqIBzqIBzqIBzqIBzqIBzqIBzqIBzqIBzqIBzqID0KQDz6QCzqMBzqIBzqIBzqIBzqIBzqIBzqIBzqIBzqIBzqIDzqUDzqYBzqIBzqL////67OkeAAAAJ3RSTlMAAAAAAAAAAAAAAAALEGPBzs3w3j6Uo6IBAQNGoK7j7Fm3xAcBAT2CLhv7AAAAAWJLR0QovbC1sgAAAAd0SU1FB+IMCgw4FtdE7YIAAACNSURBVDjLzdNLAoIwEAPQdBRHoALyUwT5i/e/oXiApkt969k0SYE/YIQyONgLYY9I0uzqlKUJ8jeVo+AHBcqqvjnVVQkJ7kQgOCl1hhpKIc2DaARt9yS6Fj1/Zo+BHwwYp5mYRshiiUWgvG5FyHMI96jXl9O6R73xsjZ/3d7BeCcX8dFGiHkO8a+/5dcHL2E+6l+rbnsAAAAldEVYdGRhdGU6Y3JlYXRlADIwMTgtMTItMTBUMTE6NTY6MjIrMDE6MDAEmRr8AAAAJXRFWHRkYXRlOm1vZGlmeQAyMDE4LTEyLTEwVDExOjU2OjIyKzAxOjAwdcSiQAAAAABJRU5ErkJggg=="
+    />
+    <title>Dashboard PM2 - Login</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        user-select: none;
+      }
+
+      body {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        font-family: Arial, sans-serif;
+        background-color: #171e27;
+        color: white;
+        align-items: center;
+        justify-content: center;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1rem;
+        padding: 1rem;
+        border: 1px solid #333;
+        border-radius: 0.5rem;
+        background-color: #333;
+      }
+
+      form span {
+        display: none;
+        color: rgb(226, 61, 61);
+      }
+
+      form span.active {
+        display: block;
+      }
+
+      form label {
+        color: white;
+        width: 100%;
+      }
+
+      form input {
+        padding: 0.5rem;
+        border: 1px solid #333;
+        border-radius: 0.25rem;
+        background-color: #444;
+        color: white;
+        outline: none;
+      }
+
+      form button {
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 0.25rem;
+        background-color: #62686d;
+        color: white;
+        cursor: pointer;
+        outline: none;
+      }
+
+      form button:hover {
+        opacity: 0.8;
+      }
+
+      #form_buttons {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+      }
+    </style>
+  </head>
+  <body>
+    <form>
+      <span>Senha Errada!</span>
+      <label for="password">Senha:</label>
+      <input type="password" id="password" required />
+      <div id="form_buttons">
+        <button type="submit">Login</button>
+      </div>
+    </form>
+    <script>
+      document.getElementById("password").addEventListener("input", (event) => {
+        document.querySelector("span").style.display = "none"; // Esconder a mensagem de erro
+      });
+
+      document.querySelector("form").addEventListener("submit", (event) => {
+        event.preventDefault();
+        const password = document.querySelector("#password").value;
+        fetch("/api/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ password }),
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            if (res.token) {
+              localStorage.setItem("token", res.token);
+              window.location.href = "/";
+            } else {
+              document.querySelector("span").style.display = "block";
+            }
+          });
+      });
+    </script>
+  </body>
+</html>
