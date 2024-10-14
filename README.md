@@ -1,5 +1,7 @@
 # node_pm2
 
+![Foto do projeto](./public/project_pm2.png)
+
 **node_pm2** é um dashboard open-source para monitorar aplicações que utilizam o **PM2**. Ele é hospedado na própria máquina onde o projeto está rodando com PM2, permitindo uma fácil visualização e gerenciamento dos processos.
 
 ## Funcionalidades
